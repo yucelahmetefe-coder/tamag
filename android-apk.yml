@@ -1,0 +1,61 @@
+# Her "main" gönderiminde Android APK'sını derler ve "Releases" sayfasına koyar.
+# Elle çalıştırmak için: Actions sekmesi > Android APK > Run workflow.
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-apk
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Oyunu Android projesine kopyala
+        run: npx cap sync android
+
+      - name: APK derle
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon -PversionCode=${{ github.run_number }}
+
+      - name: APK'yı adlandır
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk tamagdan-kacis.apk
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: tamagdan-kacis-apk
+          path: tamagdan-kacis.apk
+
+      - name: Releases sayfasına koy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete son-surum --yes --cleanup-tag || true
+          gh release create son-surum tamagdan-kacis.apk \
+            --target "$GITHUB_SHA" \
+            --title "Tamag'dan Kaçış · derleme ${{ github.run_number }}" \
+            --notes "Android telefonda bu sayfadaki tamagdan-kacis.apk dosyasını indirip aç. Önceki sürümün üstüne kurulur, kayıtlar silinmez."

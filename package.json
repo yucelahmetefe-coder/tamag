@@ -1,0 +1,22 @@
+{
+  "name": "tamagdan-kacis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tamag'dan Kaçış - mobil paket (PWA + Android)",
+  "scripts": {
+    "serve": "npx --yes http-server www -p 8080 -c-1",
+    "sync": "cap sync android",
+    "apk": "cap sync android && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

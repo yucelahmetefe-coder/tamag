@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Tamag\'dan Kaçış</string>
+    <string name="title_activity_main">Tamag\'dan Kaçış</string>
+    <string name="package_name">com.tamagdankacis.oyun</string>
+    <string name="custom_url_scheme">com.tamagdankacis.oyun</string>
+</resources>

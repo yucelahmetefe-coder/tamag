@@ -1,0 +1,17 @@
+{
+  "appId": "com.tamagdankacis.oyun",
+  "appName": "Tamag'dan Kaçış",
+  "webDir": "www",
+  "backgroundColor": "#0a0911",
+  "android": {
+    "backgroundColor": "#0a0911",
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SystemBars": {
+      "hidden": true,
+      "insetsHandling": "css",
+      "initialViewportFitValueHint": "cover"
+    }
+  }
+}
